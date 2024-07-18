@@ -32,17 +32,19 @@ export class ChatgptService {
         this.apiUrl = 'https://api.openai.com/v1/chat/completions';
     }
 
-    generateResponse(prompt: string): Observable<string> {
+    generateResponse(question: string): Observable<string> {
         const apiKey = this.configService.get('CHATGPT_API_KEY');
         const headers = {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
         };
 
+        const prompt = `Ти мій помічник з вивчення англійської мови. Я тобі буду писати текст на англійській мові, а ти перевіряй граматику та якщо будуть помилки, то пиши виправлений текст англійською. Після кожного свого речення на англійській надавай транскрипцію цього речення. Після цього задавай мені питання для підтримки бесіди.  ${question}`;
+
         const data = {
             model: 'gpt-3.5-turbo',
             messages: [{ role: 'user', content: prompt }],
-            temperature: 1,
+            temperature: 0.5,
         };
 
         return this.httpService.post(this.apiUrl, data, { headers }).pipe(
