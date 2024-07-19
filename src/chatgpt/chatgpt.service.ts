@@ -3,32 +3,15 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 
-interface ChatGptAnswer {
-    id: string;
-    object: string;
-    created: number;
-    model: string;
-    usage: {
-        prompt_tokens: number;
-        completion_tokens: number;
-        total_tokens: number;
-    };
-    choices: {
-        message: {
-            role: string;
-            content: string;
-        };
-        finish_reason: string;
-        index: number;
-    }[];
-}
-
 @Injectable()
 export class ChatgptService {
     private readonly logger = new Logger(ChatgptService.name);
     private apiUrl: string;
 
-    constructor(private configService: ConfigService, private httpService: HttpService) {
+    constructor(
+        private configService: ConfigService,
+        private httpService: HttpService,
+    ) {
         this.apiUrl = 'https://api.openai.com/v1/chat/completions';
     }
 
@@ -39,10 +22,10 @@ export class ChatgptService {
             Authorization: `Bearer ${apiKey}`,
         };
 
-        const prompt = `Ти мій помічник з вивчення англійської мови. Я тобі буду писати текст на англійській мові, а ти перевіряй граматику та якщо будуть помилки, то пиши виправлений текст англійською. Після кожного свого речення на англійській надавай транскрипцію цього речення. Після цього задавай мені питання для підтримки бесіди.  ${question}`;
+        const prompt = `Ти мій помічник з вивчення англійської мови. Я тобі буду писати текст на англійській мові, а ти перевіряй граматику та якщо будуть помилки, то пиши виправлений текст англійською. Після кожного свого речення на англійській надавай транскрипцію цього речення. Після цього відповідай на моє запитання для підтримки бесіди.  ${question}`;
 
         const data = {
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-4o-mini',
             messages: [{ role: 'user', content: prompt }],
             temperature: 0.5,
         };

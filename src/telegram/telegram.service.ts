@@ -28,6 +28,10 @@ export class TelegramService extends Telegraf<Context> {
 
     @On('text')
     onMessage(@Message('text') message: string) {
-        return this.gpt.generateResponse(message);
+        const checkMessage = message.trim();
+        if (checkMessage !== 'end' && checkMessage !== '') {
+            return this.gpt.generateResponse(message);
+        }
+        return 'Введіть текст для спілкування';
     }
 }
