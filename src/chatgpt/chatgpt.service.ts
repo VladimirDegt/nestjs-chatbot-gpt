@@ -22,7 +22,7 @@ export class ChatgptService {
             Authorization: `Bearer ${apiKey}`,
         };
 
-        const prompt = `Ти мій помічник з вивчення англійської мови. Я тобі буду писати текст на англійській мові, а ти перевіряй граматику та якщо будуть помилки, то пиши виправлений текст англійською. Після кожного свого речення на англійській надавай транскрипцію цього речення. Після цього відповідай на моє запитання для підтримки бесіди.  ${question}`;
+        const prompt = `I learn English. I want to have a conversation with you. You should check my sentences and give me correct variant. After that you should to continue the conversation with me  ${question}`;
 
         const data = {
             model: 'gpt-4o-mini',
